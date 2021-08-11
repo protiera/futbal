@@ -27,10 +27,13 @@ const ballState = {
     OUT: "out"
 }
 
+var bluePlayersCount = 1;
+var redPlayersCount = 1;
 var entities;
 var ball;
 var blueTeam;
 var redTeam;
+var reset = false;
 
 
 
@@ -53,7 +56,11 @@ function init() {
         ball
     ];
 
-    window.requestAnimationFrame(main);
+    if(!reset)
+        window.requestAnimationFrame(main);
+    else{
+        reset = false;
+    }
 
 }
 
@@ -126,7 +133,7 @@ class Player {
         this.getBall();
         this.play();
         this.move();
-        console.log("Player angle : " + this.angle);
+        // console.log("Player angle : " + this.angle);
     }
 
 
@@ -144,7 +151,7 @@ class Player {
     }
 
     move() {
-        console.log("test");
+
         if (this.velocity < this.maxspeed) {
             this.velocity += this.maxspeed / 120;
         }
@@ -184,7 +191,7 @@ class MathUtils {
         var delta_x = targetEntity.x - mainEntity.x;
         var delta_y = targetEntity.y - mainEntity.y;
         var theta_radians = Math.atan2(delta_y, delta_x);
-        console.log("angle between player and ball" + theta_radians);
+        // console.log("angle between player and ball" + theta_radians);
         return theta_radians;
     }
 
@@ -240,14 +247,16 @@ class Team {
         this.teamColor = teamColor;
         if (teamColor == teamColors.RED) {
             console.log("Red team created");
-            this.players = [
-                new Player(this, 500, 300, 2, 8)
-            ]
+            this.players = [];
+            for(let i = 0; i < redPlayersCount; i++){
+                this.players.push(new Player(this, 400, 100+100*i, 2, 8));
+            }
         } else if (teamColor == teamColors.BLUE) {
             console.log("Blue team created");
-            this.players = [
-                new Player(this, 900, 300, 2, 8)
-            ]
+            this.players = [];
+            for(let i = 0; i < bluePlayersCount; i++){
+                this.players.push(new Player(this, 100, 100+100*i, 2, 8));
+            }
         }
     }
 
