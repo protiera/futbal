@@ -34,13 +34,23 @@ var ball;
 var blueTeam;
 var redTeam;
 var reset = false;
+var pause = false;
+var fps = 100;
 
 
+function animate(){
+    setTimeout(function() {
+        requestAnimationFrame(main);
+    }, 1000 / fps);
+}
 
 // setup config variables and start the program
 function init() {
+    bluePlayersCount = document.getElementById('bluePlayers').value;
+    redPlayersCount = document.getElementById('redPlayers').value;
     // set our config variables
     canvas = document.getElementById('mainCanvas')
+    reset = false;
     ctx = canvas.getContext('2d');
 
     ball = new Ball(600, 300, 0);
@@ -52,12 +62,13 @@ function init() {
         field = new Field(),
         BallManager,
         blueTeam,
-        //redTeam,
+        redTeam,
         ball
     ];
 
-    if(!reset)
-        window.requestAnimationFrame(main);
+    if(!reset){
+        animate();
+    }
     else{
         reset = false;
     }
@@ -65,15 +76,20 @@ function init() {
 }
 
 function main() {
+      
     ctx.clearRect(0, 0, 1200, 600);
-
+    
     entities.forEach(function(entity) {
-        entity.update();
+        if(!pause){
+            entity.update();
+        }
         entity.draw();
     });
+    
+    if(!pause){
+        animate();
+    }        
 
-
-    window.requestAnimationFrame(main);
 }
 
 // wait for the HTML to load
