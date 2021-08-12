@@ -11,11 +11,32 @@
 // initialize config variables here
 let canvas, ctx
 
+
 const FIELD_SIZE = {
     width: 1200,
     height: 600
 }
 
+function negativeCoords(coords){
+    return {x : FIELD_SIZE.width - coords.x, y : FIELD_SIZE.height - coords.y};
+}
+
+const defaultPositions = [
+    {x : 20, y : FIELD_SIZE.height/2},
+    {x : 150, y : FIELD_SIZE.height/2}, //DC
+    {x : 150, y : FIELD_SIZE.height/6}, //AL D
+    {x : 150, y : FIELD_SIZE.height - FIELD_SIZE.height/6}, //AL D
+    {x : 300, y : FIELD_SIZE.height/2}, //AC
+    {x : 300, y : FIELD_SIZE.height/6}, //AV D
+    {x : 300, y : FIELD_SIZE.height - FIELD_SIZE.height/6}, //AV D
+]
+
+const playerPositions = {
+    BLUE: [
+        ...defaultPositions
+    ],
+    RED : defaultPositions.map(item => negativeCoords(item)),
+}
 const teamColors = {
     RED: "red",
     BLUE: "blue"
@@ -86,11 +107,9 @@ function main() {
         entity.draw();
     });
     
-    
     if(!pause){
         animate();
     }        
-
 }
 
 // wait for the HTML to load
@@ -109,7 +128,6 @@ class Ball {
 
     update() {
         this.move();
-
     }
 
     move() {
@@ -266,13 +284,13 @@ class Team {
             console.log("Red team created");
             this.players = [];
             for(let i = 0; i < redPlayersCount; i++){
-                this.players.push(new Player(this, 400, 100+100*i, 2, 8));
+                this.players.push(new Player(this, playerPositions.RED[i].x, playerPositions.RED[i].y, 2, 8));
             }
         } else if (teamColor == teamColors.BLUE) {
             console.log("Blue team created");
             this.players = [];
             for(let i = 0; i < bluePlayersCount; i++){
-                this.players.push(new Player(this, 100, 100+100*i, 2, 8));
+                this.players.push(new Player(this, playerPositions.BLUE[i].x, playerPositions.BLUE[i].y, 2, 8));
             }
         }
     }

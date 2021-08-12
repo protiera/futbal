@@ -33,6 +33,7 @@ function resumeGame(){
 
 submitButton.addEventListener('click', (e) => {
     resetGame();
+    resumeGame();
     console.log(blueTeam);
     console.log(redTeam);
 });
