@@ -32,9 +32,6 @@ function resumeGame(){
 }
 
 submitButton.addEventListener('click', (e) => {
-    reset = true;
-    bluePlayersCount = document.getElementById("bluePlayers").value;
-    redPlayersCount = document.getElementById("redPlayers").value;
     resetGame();
     console.log(blueTeam);
     console.log(redTeam);

@@ -39,18 +39,24 @@ var fps = 100;
 
 
 function animate(){
-    setTimeout(function() {
-        requestAnimationFrame(main);
-    }, 1000 / fps);
+    if(!reset){
+        setTimeout(function() {
+            requestAnimationFrame(main);
+        }, 1000 / fps);
+    }
+    else{
+        reset = false;
+    }
+
 }
 
 // setup config variables and start the program
 function init() {
     bluePlayersCount = document.getElementById('bluePlayers').value;
     redPlayersCount = document.getElementById('redPlayers').value;
+    fps = document.getElementById('fps').value;
     // set our config variables
     canvas = document.getElementById('mainCanvas')
-    reset = false;
     ctx = canvas.getContext('2d');
 
     ball = new Ball(600, 300, 0);
@@ -66,13 +72,7 @@ function init() {
         ball
     ];
 
-    if(!reset){
-        animate();
-    }
-    else{
-        reset = false;
-    }
-
+    animate();
 }
 
 function main() {
@@ -85,6 +85,7 @@ function main() {
         }
         entity.draw();
     });
+    
     
     if(!pause){
         animate();
